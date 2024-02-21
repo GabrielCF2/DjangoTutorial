@@ -1,0 +1,2 @@
+Tutorial da freeCodeCamp.org com base no vídeo de <a href="https://www.youtube.com/watch?v=ZxMB6Njs3ck&list=PLwNwQbnBVCM4fqdCbjtNyFPNQHryiIGrT&index=2&t=1516s">Tutorial Django</a>. 
+Parei em 24:50 no dia 21/02/2024
