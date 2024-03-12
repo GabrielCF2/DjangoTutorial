@@ -4,3 +4,4 @@ Para desativar o ambiente python: "env\Scripts\deactivate.bat" no cmd
 No ambiente de execução rodar o comando "python manage.py runserver" dentro da pasta Puddle
 Parei em 24:50 no dia 21/02/2024
 Parei em 44:24 no dia 27/02/2024
+Parei em 1:39:58 no dia 12/03/2024
