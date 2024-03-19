@@ -6,3 +6,5 @@ Parei em 24:50 no dia 21/02/2024
 Parei em 44:24 no dia 27/02/2024
 Parei em 1:39:58 no dia 12/03/2024
 Parei em 1:53:42 no dia 13/03/2024
+Terminei no dia 19/03/2024
+Sim eu sei que demorei muito pra terminar esse tutorial
