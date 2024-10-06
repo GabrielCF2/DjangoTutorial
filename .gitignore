@@ -1,2 +1,2 @@
-env/
-pudle/db.sqlite3
+env
+.sqlite3
