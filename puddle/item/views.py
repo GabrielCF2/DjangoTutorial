@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 
 from .models import Item,Category
@@ -52,7 +53,18 @@ def new(request):
     
 @login_required
 def edit(request,pk):
-    item =get_object_or_404(Item,pk=pk,created_by=request.user)
+    try:
+        # Tenta buscar o item
+        item = Item.objects.get(pk=pk)
+        
+        # Verifica se o usuário tem permissão para editar
+        if item.created_by != request.user and not request.user.groups.filter(name='Admin').exists():
+            raise PermissionDenied("Você não tem permissão para editar este item.")
+        
+    except Item.DoesNotExist:
+        # Caso o item não exista, renderiza uma página de erro 404
+        return render(request, '404.html', status=404)
+
     if request.method == 'POST':
         form = EditItemForm(request.POST, request.FILES,instance=item)
         
@@ -70,7 +82,17 @@ def edit(request,pk):
     
 @login_required
 def delete(request,pk):
-    item =get_object_or_404(Item,pk=pk,created_by=request.user)
+    try:
+        # Tenta buscar o item
+        item = Item.objects.get(pk=pk)
+        
+        # Verifica se o usuário tem permissão para editar
+        if item.created_by != request.user and not request.user.groups.filter(name='Admin').exists():
+            raise PermissionDenied("Você não tem permissão para editar este item.")
+        
+    except Item.DoesNotExist:
+        # Caso o item não exista, renderiza uma página de erro 404
+        return render(request, '404.html', status=404)
     item.delete()
     
     return redirect("dashboard:index")
