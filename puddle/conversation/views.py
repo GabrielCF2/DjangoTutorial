@@ -55,7 +55,7 @@ def detail(request,pk):
             conversation_message.save()
             conversation.save()
             
-            return redirect(request,'conversation/detail.html',pk=pk)
+            return redirect('conversation:detail',pk=pk)
     else:
         form = ConversationMessageForm()
         
