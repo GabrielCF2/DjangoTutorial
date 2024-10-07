@@ -7,17 +7,7 @@ from .forms import ConversationMessageForm
 # Create your views here.
 @login_required
 def new_conversation(request, item_pk):
-    try:
-        # Tenta buscar o item
-        item = Item.objects.get(pk=pk)
-        
-        # Verifica se o usuário tem permissão para editar
-        if item.created_by != request.user and not request.user.groups.filter(name='Admin').exists():
-            raise PermissionDenied("Você não tem permissão para editar este item.")
-        
-    except Item.DoesNotExist:
-        # Caso o item não exista, renderiza uma página de erro 404
-        return render(request, '404.html', status=404)
+    item = Item.objects.get(pk=item_pk)
     
     if item.created_by == request.user:
         return redirect('dashboard:index')
