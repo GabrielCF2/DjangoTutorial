@@ -12,6 +12,7 @@ class ConversationTest(TestCase):
         # Criando dois usuários de teste
         self.user1 = User.objects.create_user(username='user1', password='pass12345')
         self.user2 = User.objects.create_user(username='user2', password='pass54321')
+        self.user3 = User.objects.create_user(username='user3', password='pass67890')
         self.category = Category.objects.create(name='Eletrônicos')
         
         image = SimpleUploadedFile(
@@ -120,3 +121,25 @@ class ConversationTest(TestCase):
         form = ConversationMessageForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('content', form.errors)
+
+    def test_non_member_cannot_send_message(self):
+        # Loga o user3 (que não faz parte da conversa)
+        self.client.login(username='user3', password='pass67890')
+
+        self.conversation = Conversation.objects.create(item=self.item)
+        self.conversation.members.add(self.user1, self.user2)
+
+        # Tentativa de enviar uma mensagem
+        form_data = {
+            'content': 'Esta é uma mensagem de um usuário não participante.'
+        }
+        response = self.client.post(reverse('conversation:detail', args=[self.conversation.pk]), data=form_data)
+
+        # Verifica se a resposta é 403 Forbidden (ou PermissionDenied)
+        self.assertEqual(response.status_code, 403)
+
+        # Verifica se a mensagem não foi criada na conversa
+        self.assertFalse(ConversationMessage.objects.filter(
+            conversation=self.conversation,
+            content='Esta é uma mensagem de um usuário não participante.'
+        ).exists())

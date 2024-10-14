@@ -58,7 +58,7 @@ def edit(request,pk):
         item = Item.objects.get(pk=pk)
         
         # Verifica se o usuário tem permissão para editar
-        if item.created_by != request.user and not request.user.groups.filter(name='Admin').exists():
+        if item.created_by != request.user and not request.user.has_perm('item.change_item'):
             raise PermissionDenied("Você não tem permissão para editar este item.")
         
     except Item.DoesNotExist:
@@ -87,7 +87,7 @@ def delete(request,pk):
         item = Item.objects.get(pk=pk)
         
         # Verifica se o usuário tem permissão para editar
-        if item.created_by != request.user and not request.user.groups.filter(name='Admin').exists():
+        if item.created_by != request.user and not request.user.has_perm('item.delete_item'):
             raise PermissionDenied("Você não tem permissão para editar este item.")
         
     except Item.DoesNotExist:
